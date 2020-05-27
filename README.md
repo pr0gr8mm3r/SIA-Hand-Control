@@ -1,13 +1,4 @@
-# TensorFlow Lite PoseNet Android Demo
-### Overview
-This is an app that continuously detects the body parts in the frames seen by
- your device's camera. These instructions walk you through building and running
- the demo on an Android device. Camera captures are discarded immediately after
- use, nothing is stored or saved.
-
-![Demo Image](posenetimage.png)
-
-## Build the demo using Android Studio
+## Build using Android Studio
 
 ### Prerequisites
 
@@ -22,8 +13,8 @@ This is an app that continuously detects the body parts in the frames seen by
 `Open an existing Android Studio project`.
 
 * From the `Open File or Project` window that appears, navigate to and select
- the `tensorflow-lite/examples/posenet/android` directory from wherever you
- cloned the TensorFlow Lite sample GitHub repo. Click `OK`.
+ the directory from wherever you
+ cloned this repo. Click `OK`.
 
 * If it asks you to do a `Gradle Sync`, click `OK`.
 
