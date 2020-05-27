@@ -1,0 +1,13 @@
+<resources>
+
+  <!-- Base application theme. -->
+  <style name="AppTheme.Posenet" parent="Theme.MaterialComponents.NoActionBar">
+    <item name="colorPrimary">@color/tfe_color_primary</item>
+    <item name="colorPrimaryDark">@color/tfe_color_primary_dark</item>
+    <item name="colorSecondary">@color/tfe_color_accent</item>
+    <item name="colorOnSecondary">#fff</item>
+    <item name="colorAccent">@color/tfe_color_accent</item>
+    <item name="android:windowContentOverlay">@null</item>
+  </style>
+
+</resources>

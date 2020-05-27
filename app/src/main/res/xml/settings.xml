@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        app:icon="@drawable/ic_bluetooth_protocol"
+        app:key="protocol"
+        app:title="Protokoll wählen"
+        app:summary="Kommunikationsprotokoll des Arduinos auswählen"
+        app:defaultValue="custom"
+        app:enabled="true"
+        app:entries="@array/protocols"
+        app:entryValues="@array/protocol_values"/>
+
+    <Preference
+        app:title="@string/made_by"
+        app:summary="basierend auf der PoseNet-Demoanwendung von Google"
+        app:enabled="false"/>
+
+</PreferenceScreen>
