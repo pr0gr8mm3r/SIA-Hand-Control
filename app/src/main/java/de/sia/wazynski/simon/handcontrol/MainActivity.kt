@@ -62,7 +62,10 @@ class MainActivity : AppCompatActivity(),
             .commit()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        fabStop.setOnTouchListener { _, _ -> stopTracking(); true }
+        fabStop.setOnTouchListener { _, _ ->
+            stopTracking()
+            true
+        }
         fabResume.setOnClickListener { resumeTracking() }
 
         btnBt.setOnClickListener { openBtDeviceDialog() }
@@ -211,10 +214,17 @@ class MainActivity : AppCompatActivity(),
     override fun dataAvailable(x: Float, y: Float) {
         println("x: $x y: $y")
 
-        val leftToMiddleFraction = (x * 2).coerceIn(0.0f, 1.0f)
-        val middleToRightFraction = ((1.0f - x) * 2).coerceIn(0.0f, 1.0f)
-        val motorLeft = (y * middleToRightFraction * 512).toInt()
-        val motorRight = (y * leftToMiddleFraction * 512).toInt()
+        var motorLeft: Int?
+        var motorRight: Int?
+        if (active) {
+            val leftToMiddleFraction = (x * 2).coerceIn(0.0f, 1.0f)
+            val middleToRightFraction = ((1.0f - x) * 2).coerceIn(0.0f, 1.0f)
+            motorLeft = (y * middleToRightFraction * 512).toInt()
+            motorRight = (y * leftToMiddleFraction * 512).toInt()
+        } else {
+            motorLeft = 256
+            motorRight = 256
+        }
         val message: String? = when (protocol) {
             ArduinoProtocol.DEFAULT -> "#,888,$motorLeft,$motorRight,999"
             ArduinoProtocol.CUSTOM -> {
