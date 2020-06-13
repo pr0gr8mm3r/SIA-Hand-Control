@@ -28,15 +28,16 @@ import me.aflak.bluetooth.interfaces.BluetoothCallback
 import me.aflak.bluetooth.interfaces.DeviceCallback
 import me.aflak.bluetooth.interfaces.DiscoveryCallback
 
-
 class MainActivity : AppCompatActivity(),
     PosenetFragment.PosenetDataCallback,
     BtDeviceDialog.BtDeviceDialogCallback,
-    SettingsDialog.SettingsCallback {
+    SettingsCallback {
 
     private var active: Boolean = true
 
     private val devices = mutableListOf<BluetoothDevice>()
+
+    private var protocol = ArduinoProtocol.DEFAULT
 
     companion object {
         const val TAG = "CameraActivity"
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity(),
             .commit()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        fabStop.setOnTouchListener { _, _ ->  stopTracking(); true }
+        fabStop.setOnTouchListener { _, _ -> stopTracking(); true }
         fabResume.setOnClickListener { resumeTracking() }
 
         btnBt.setOnClickListener { openBtDeviceDialog() }
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun scan() {
-        if(bluetooth.bluetoothAdapter != null) bluetooth.startScanning()
+        if (bluetooth.bluetoothAdapter != null) bluetooth.startScanning()
     }
 
     private fun toast(resId: Int) {
@@ -112,7 +113,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun openSettingsDialog() {
-        SettingsDialog().show(supportFragmentManager,
+        SettingsDialog().show(
+            supportFragmentManager,
             TAG
         )
     }
@@ -121,7 +123,8 @@ class MainActivity : AppCompatActivity(),
         if (btDialog == null) btDialog =
             BtDeviceDialog()
 
-        if (btDialog?.isVisible != true) btDialog?.show(supportFragmentManager,
+        if (btDialog?.isVisible != true) btDialog?.show(
+            supportFragmentManager,
             TAG
         )
     }
@@ -212,14 +215,21 @@ class MainActivity : AppCompatActivity(),
         val middleToRightFraction = ((1.0f - x) * 2).coerceIn(0.0f, 1.0f)
         val motorLeft = (y * middleToRightFraction * 512).toInt()
         val motorRight = (y * leftToMiddleFraction * 512).toInt()
-        val message = "#,888,$motorLeft,$motorRight,999"
+        val message: String? = when (protocol) {
+            ArduinoProtocol.DEFAULT -> "#,888,$motorLeft,$motorRight,999"
+            ArduinoProtocol.CUSTOM -> {
+                val stringLeft = motorLeft.toString().padStart(3, '0')
+                val stringRight = motorLeft.toString().padStart(3, '0')
+                "$stringLeft,$stringRight;"
+            }
+        }
 
         println("btmessage: $message")
-        if (bluetooth.isConnected) bluetooth.send(message)
+        if (bluetooth.isConnected && message != null) bluetooth.send(message)
     }
 
     override fun onProtocolSet(protocol: ArduinoProtocol) {
-        //TODO("Not yet implemented")
+        this.protocol = protocol
     }
 
 }

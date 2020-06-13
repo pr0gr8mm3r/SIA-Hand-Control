@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SettingsDialog : BottomSheetDialogFragment() {
+class SettingsDialog : BottomSheetDialogFragment(), SettingsCallback {
 
     private var callback: SettingsCallback? = null
 
@@ -45,7 +45,11 @@ class SettingsDialog : BottomSheetDialogFragment() {
         callback = null
     }
 
-    interface SettingsCallback {
-        fun onProtocolSet(protocol: ArduinoProtocol)
+    override fun onProtocolSet(protocol: ArduinoProtocol) {
+        callback?.onProtocolSet(protocol)
     }
+}
+
+interface SettingsCallback {
+    fun onProtocolSet(protocol: ArduinoProtocol)
 }

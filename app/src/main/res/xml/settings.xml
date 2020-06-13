@@ -6,7 +6,7 @@
         app:key="protocol"
         app:title="Protokoll wählen"
         app:summary="Kommunikationsprotokoll des Arduinos auswählen"
-        app:defaultValue="custom"
+        app:defaultValue="default"
         app:enabled="true"
         app:entries="@array/protocols"
         app:entryValues="@array/protocol_values"/>
